@@ -6,10 +6,6 @@ const ButtonGroup = DefaultButton.Group;
 const ButtonOr = DefaultButton.Or;
 
 export default class RatingView extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <Form>
@@ -19,15 +15,19 @@ export default class RatingView extends Component {
                         <Rating defaultRating={1} maxRating={3} size='massive' />
                     </Field>
                     <Field>
-                        <label>Obscenity: </label>
+                        <label>Profanity/Obscenity: </label>
                         <Rating clearable maxRating={3} size='big' />
                     </Field>
                     <Field>
-                        <label>Identity hate: </label>
+                        <label>Identity based hate: </label>
                         <Rating clearable maxRating={3} size='big' />
                     </Field>
                     <Field>
-                        <label>Insult: </label>
+                        <label>Insulting: </label>
+                        <Rating clearable maxRating={3} size='big' />
+                    </Field>
+                    <Field>
+                        <label>Threatening: </label>
                         <Rating clearable maxRating={3} size='big' />
                     </Field>
                 </Group>
