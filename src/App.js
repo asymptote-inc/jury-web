@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import View from './auth/SignUp';
+import View from './main/Rating';
 
 class App extends Component {
   render() {

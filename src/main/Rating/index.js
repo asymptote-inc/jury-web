@@ -1,47 +1,93 @@
 import React, { Component } from 'react';
-import { Form, Button as DefaultButton, Rating } from 'semantic-ui-react';
-
-const { Group, Checkbox, Input, Button, Field, TextArea } = Form;
-const ButtonGroup = DefaultButton.Group;
-const ButtonOr = DefaultButton.Or;
+import { Form, Grid, Header, Image, Segment, Button, Rating, Container, Accordion } from 'semantic-ui-react';
 
 export default class RatingView extends Component {
-    render() {
-        return (
-            <Form>
-                <Group widths='equal'>
-                    <Field required>
+  render() {
+    return (
+      <div className='rating-view'>
+        <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.rating-view {
+        height: 100%;
+      }
+    `}</style>
+        <Grid
+          textAlign='center'
+          style={{ height: '100%' }}
+          verticalAlign='middle'
+        >
+          <Grid.Column style={{ maxWidth: 600 }}>
+            <Header as='h2' color='violet' textAlign='center'>
+              <Image src='/logo.png' />
+              {' '}Rate this comment
+              </Header>
+            <Form size='large'>
+              <Segment.Group stacked>
+                <Segment>
+                  <Container fluid>Question here...</Container>
+                </Segment>
+                <Segment>
+                  <Segment.Group>
+                    <Segment>
+                      <Form.Field required inline>
                         <label>Toxicity: </label>
                         <Rating defaultRating={1} maxRating={3} size='massive' />
-                    </Field>
-                    <Field>
+                      </Form.Field>
+                    </Segment>
+                    <Segment>
+                      <Form.Field inline>
                         <label>Profanity/Obscenity: </label>
-                        <Rating clearable maxRating={3} size='big' />
-                    </Field>
-                    <Field>
+                        <Rating clearable maxRating={3} size='huge' />
+                      </Form.Field>
+                    </Segment>
+                    <Segment>
+                      <Form.Field inline>
                         <label>Identity based hate: </label>
-                        <Rating clearable maxRating={3} size='big' />
-                    </Field>
-                    <Field>
+                        <Rating clearable maxRating={3} size='huge' />
+                      </Form.Field>
+                    </Segment>
+                    <Segment>
+                      <Form.Field inline>
                         <label>Insulting: </label>
-                        <Rating clearable maxRating={3} size='big' />
-                    </Field>
-                    <Field>
+                        <Rating clearable maxRating={3} size='huge' />
+                      </Form.Field>
+                    </Segment>
+                    <Segment>
+                      <Form.Field inline>
                         <label>Threatening: </label>
-                        <Rating clearable maxRating={3} size='big' />
-                    </Field>
-                </Group>
-                <Group width='equals'>
-                    <TextArea label='Comments' placeholder='Additional ideas about the comment' />
-                </Group>
-                <ButtonGroup>
-                    <Button color='violet' size='large'>Submit</Button>
-                    <ButtonOr />
-                    <Button color='grey' size='large'>Skip</Button>
-                    <ButtonOr />
-                    <Button color='brown' size='large'>Unreadable</Button>
-                </ButtonGroup>
+                        <Rating clearable maxRating={3} size='huge' />
+                      </Form.Field>
+                    </Segment>
+                  </Segment.Group>
+                </Segment>
+                <Segment>
+                  <Accordion as={Form.Field} panels={[
+                    {
+                      title: 'Optional Details',
+                      content: {
+                        as: Form.TextArea,
+                        key: 'content',
+                        label: 'Additional comments',
+                        placeholder: 'Additional ideas on the comment',
+                      },
+                    }
+                  ]} />
+                </Segment>
+                <Segment attached='bottom'>
+                  <Button.Group fluid>
+                    <Button color='violet' size='large'>Submit &amp; next</Button>
+                    <Button.Or />
+                    <Button color='yellow' size='large'>Skip</Button>
+                    <Button.Or />
+                    <Button color='brown' size='large'>Flag as unreadable</Button>
+                  </Button.Group>
+                </Segment>
+              </Segment.Group>
             </Form>
-        );
-    }
+          </Grid.Column>
+        </Grid>
+      </div>
+    );
+  }
 }
