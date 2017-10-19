@@ -1,30 +1,64 @@
 import React, { Component } from 'react';
-import { Form, Button as DefaultButton } from 'semantic-ui-react';
-
-const { Group, Checkbox, Input, Button } = Form;
-const ButtonGroup = DefaultButton.Group;
-const ButtonOr = DefaultButton.Or;
+import { Form, Button, Grid, Header, Image, Message, Segment, Divider } from 'semantic-ui-react';
 
 export default class Login extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <Form>
-                <Group widths='equal'>
-                    <Input label='Username' placeholder='Your nickname' type='text' />
-                    <Input label='E-mail' placeholder='Your e-mail' type='email' />
-                    <Input label='Password' placeholder='Your password' type='password' />
-                </Group>
-                <Checkbox label='Keep me Logged in' />
-                <ButtonGroup>
-                    <Button color='blue' size='large'>Log In</Button>
-                    <ButtonOr />
-                    <Button size='large'>Sign Up</Button>
-                </ButtonGroup>
+  render() {
+    return (
+      <div className='login-form'>
+        <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}</style>
+        <Grid
+          textAlign='center'
+          style={{ height: '100%' }}
+          verticalAlign='middle'
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='blue' textAlign='center'>
+              <Image src='/logo.png' />
+              {' '}Log-in to your account
+        </Header>
+            <Form size='large'>
+              <Segment>
+                <Segment>
+                  <Form.Input
+                    fluid
+                    icon='mail'
+                    iconPosition='left'
+                    type='email'
+                    placeholder='E-mail address'
+                  />
+                  <Divider horizontal>Or</Divider>
+                  <Form.Input
+                    fluid
+                    icon='user'
+                    iconPosition='left'
+                    placeholder='Username'
+                  />
+                </Segment>
+                <Divider horizontal>And</Divider>
+                <Form.Input
+                  fluid
+                  icon='lock'
+                  iconPosition='left'
+                  placeholder='Password'
+                  type='password'
+                />
+                <Form.Checkbox toggle label='Keep me Logged in' />
+                <Divider horizontal />
+                <Button color='blue' fluid size='large'>Login</Button>
+              </Segment>
             </Form>
-        );
-    }
+            <Message>
+              New to us? <a href='#'>Sign Up</a>
+            </Message>
+          </Grid.Column>
+        </Grid>
+      </div>
+    );
+  }
 }

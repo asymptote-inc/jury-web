@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import RatingView from './main/Rating';
+import View from './main/Rating';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <RatingView />
+        <View />
       </div>
     );
   }
