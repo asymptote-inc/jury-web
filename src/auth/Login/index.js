@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Grid, Header, Image, Message, Segment, Divider, Checkbox } from 'semantic-ui-react';
+import { Form, Button, Grid, Header, Image, Message, Segment, Divider } from 'semantic-ui-react';
 
 export default class Login extends Component {
   render() {
@@ -48,7 +48,7 @@ export default class Login extends Component {
                   placeholder='Password'
                   type='password'
                 />
-                <Checkbox toggle label='Keep me Logged in' />
+                <Form.Checkbox toggle label='Keep me Logged in' />
                 <Divider horizontal />
                 <Button color='blue' fluid size='large'>Login</Button>
               </Segment>
