@@ -75,12 +75,12 @@ export default class RatingView extends Component {
                   ]} />
                 </Segment>
                 <Segment attached='bottom'>
-                  <Button.Group fluid>
-                    <Button color='violet' size='large'>Submit &amp; next</Button>
+                  <Button.Group>
+                    <Button color='violet' size='large'>Submit</Button>
                     <Button.Or />
                     <Button color='yellow' size='large'>Skip</Button>
                     <Button.Or />
-                    <Button color='brown' size='large'>Flag as unreadable</Button>
+                    <Button color='brown' size='large'>Unreadable</Button>
                   </Button.Group>
                 </Segment>
               </Segment.Group>
