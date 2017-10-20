@@ -9,6 +9,7 @@ import {
   Segment,
   Divider
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export default class Login extends Component {
   render() {
@@ -64,7 +65,7 @@ export default class Login extends Component {
               </Segment>
             </Form>
             <Message>
-              New to us? <a href="#">Sign Up</a>
+              New to us? <Link to="/register">Sign Up</Link>
             </Message>
           </Grid.Column>
         </Grid>
