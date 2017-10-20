@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./config";
+import { API_BASE_URL } from './config';
 
 class ApiManager {
   static _apiManager = null;
@@ -41,41 +41,36 @@ class ApiManager {
         return null;
       }
     }
-
   }
 
   constructor(token) {
-    const headers = { 'Authorization': `Bearer ${token}` };
+    const headers = { Authorization: `Bearer ${token}` };
 
     this.getScoreboard = async () =>
-      await (
-        await fetch(`${API_BASE_URL}/xapi/scoreboard`, {
-          method: 'GET', headers
-        })
-      ).json();
+      await (await fetch(`${API_BASE_URL}/xapi/scoreboard`, {
+        method: 'GET',
+        headers
+      })).json();
 
     this.getUserData = async () =>
-      await (
-        await fetch(`${API_BASE_URL}/xapi/user_data`, {
-          method: 'GET', headers
-        })
-      ).json();
+      await (await fetch(`${API_BASE_URL}/xapi/user_data`, {
+        method: 'GET',
+        headers
+      })).json();
 
     this.postUserAnswer = async (questionId, body) =>
-      await (
-        await fetch(`${API_BASE_URL}/xapi/user_answer/${questionId}`, {
-          method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body
-        })
-      ).json();
+      await (await fetch(`${API_BASE_URL}/xapi/user_answer/${questionId}`, {
+        method: 'POST',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body
+      })).json();
 
     this.getUserUnansweredQuestions = async () =>
-      await (
-        await fetch(`${API_BASE_URL}/xapi/user_unanswered_questions`, {
-          method: 'GET', headers
-        })
-      ).json();
+      await (await fetch(`${API_BASE_URL}/xapi/user_unanswered_questions`, {
+        method: 'GET',
+        headers
+      })).json();
   }
-
 }
 
-export default ApiManager
+export default ApiManager;
