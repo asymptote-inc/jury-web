@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 import SignUp from './auth/SignUp';
 import Login from './auth/Login';
 import RatingView from './main/Rating';
+
+function loggedIn() {
+  return !!localStorage.getItem('token');
+}
 
 class App extends Component {
   render() {
@@ -12,7 +16,12 @@ class App extends Component {
         <div className="App">
           <Route exact path="/register" component={SignUp} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/" component={RatingView} />
+          <Route
+            exact
+            path="/"
+            render={() =>
+              loggedIn() ? <RatingView /> : <Redirect to="/login" />}
+          />
           <Route exact path="/profile" />
           <Route exact path="/scoreboard" />
         </div>

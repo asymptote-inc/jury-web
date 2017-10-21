@@ -9,12 +9,43 @@ import {
   Segment,
   Divider
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+
+import { validEmail, validUsername, validPassword } from '../util/validator';
+import ApiManager from '../../xapi/apiManager';
+const login = ApiManager.createApiManager;
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: '',
+      username: '',
+      password: '',
+      save: true,
+      redirect: false
+    };
+  }
+
+  submit = async () => {
+    // validity
+    const { redirect, save, ...options } = this.state;
+    if (
+      (validEmail(options.email) || validUsername(options.username)) &&
+      validPassword(options.password)
+    ) {
+      const apiMan = await login(options, save);
+      if (apiMan) {
+        this.setState({ redirect: true });
+      }
+    }
+  };
+
   render() {
     return (
       <div className="login-form">
+        {this.state.redirect && <Redirect to="/" />}
         <style>{`
       body > div,
       body > div > div,
@@ -40,6 +71,10 @@ export default class Login extends Component {
                     iconPosition="left"
                     type="email"
                     placeholder="E-mail address"
+                    value={this.state.email}
+                    error={!validEmail(this.state.email)}
+                    onChange={(event, data) =>
+                      this.setState({ email: data.value })}
                   />
                   <Divider horizontal>Or</Divider>
                   <Form.Input
@@ -47,6 +82,10 @@ export default class Login extends Component {
                     icon="user"
                     iconPosition="left"
                     placeholder="Username"
+                    value={this.state.username}
+                    error={!validUsername(this.state.username)}
+                    onChange={(event, data) =>
+                      this.setState({ username: data.value })}
                   />
                 </Segment>
                 <Divider horizontal>And</Divider>
@@ -56,10 +95,20 @@ export default class Login extends Component {
                   iconPosition="left"
                   placeholder="Password"
                   type="password"
+                  value={this.state.password}
+                  error={!validPassword(this.state.password)}
+                  onChange={(event, data) =>
+                    this.setState({ password: data.value })}
                 />
-                <Form.Checkbox toggle label="Keep me Logged in" />
+                <Form.Checkbox
+                  toggle
+                  label="Keep me Logged in"
+                  value={this.state.save}
+                  onChange={(event, data) =>
+                    this.setState({ save: data.value })}
+                />
                 <Divider horizontal />
-                <Button color="blue" fluid size="large">
+                <Button color="blue" fluid size="large" onClick={this.submit}>
                   Login
                 </Button>
               </Segment>

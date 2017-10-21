@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './config';
+import { API_BASE_URL } from '../config';
 
 class ApiManager {
   static _apiManager = null;
@@ -16,11 +16,32 @@ class ApiManager {
     }
   }
 
+  static async register(options) {
+    if (!options.username || !options.email) {
+      throw new Error('Both the username and the email must be provided. ');
+    } else if (!options.password) {
+      throw new Error('Password must be provided. ');
+    } else {
+      try {
+        const optionsReturn = await (await fetch(`${API_BASE_URL}/register`, {
+          method: 'POST',
+          body: JSON.stringify(options),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })).json();
+        return options.username === optionsReturn.username;
+      } catch (error) {
+        return null;
+      }
+    }
+  }
+
   static async createApiManager(options, save) {
     localStorage.removeItem('token');
 
     if (!options.username && !options.email) {
-      throw new Error('Either the username or the password must be provided. ');
+      throw new Error('Either the username or the email must be provided. ');
     } else if (!options.password) {
       throw new Error('Password must be provided. ');
     } else {
