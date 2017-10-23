@@ -14,6 +14,12 @@ import { Link } from 'react-router-dom';
 import getNextQuestion from '../../xapi/questionManager';
 import ApiManager from '../../xapi/apiManager';
 
+const stringRepr = {
+  '1': 'NotAtAll',
+  '2': 'Somewhat',
+  '3': 'Very'
+};
+
 export default class RatingView extends Component {
   constructor(props) {
     super(props);
@@ -69,19 +75,19 @@ export default class RatingView extends Component {
     } else {
       answerResponse.answer = {
         readableAndInEnglish,
-        toxic
+        toxic: stringRepr[toxic]
       };
       if (obscene > 0) {
-        answerResponse.answer.obscene = obscene;
+        answerResponse.answer.obscene = stringRepr[obscene];
       }
       if (identityHate > 0) {
-        answerResponse.answer.identityHate = identityHate;
+        answerResponse.answer.identityHate = stringRepr[identityHate];
       }
       if (insult > 0) {
-        answerResponse.answer.insult = insult;
+        answerResponse.answer.insult = stringRepr[insult];
       }
       if (threat > 0) {
-        answerResponse.answer.threat = threat;
+        answerResponse.answer.threat = stringRepr[threat];
       }
       if (comments.length > 0) {
         // They said comment was mandatory?
