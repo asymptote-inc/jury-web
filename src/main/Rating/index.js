@@ -50,8 +50,8 @@ export default class RatingView extends Component {
     this.setState({ loading: false });
   };
 
-  async componentDidMount() {
-    await this.fetchNewQuestion();
+  componentDidMount() {
+    this.fetchNewQuestion();
   }
 
   submit = async () => {
@@ -99,7 +99,7 @@ export default class RatingView extends Component {
       questionId,
       JSON.stringify(answerResponse)
     );
-    await this.fetchNewQuestion();
+    this.fetchNewQuestion();
   };
 
   skip = async () => {
