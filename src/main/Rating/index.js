@@ -2,16 +2,110 @@ import React, { Component } from 'react';
 import {
   Form,
   Grid,
-  Header,
-  Image,
   Segment,
   Button,
   Rating,
   Container,
-  Accordion
+  Accordion,
+  Message
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+
+import getNextQuestion from '../../xapi/questionManager';
+import ApiManager from '../../xapi/apiManager';
 
 export default class RatingView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true,
+      questionId: -1,
+      question: '',
+      readableAndInEnglish: true,
+      skip: false,
+      toxic: 1,
+      obscene: 0,
+      identityHate: 0,
+      threat: 0,
+      insult: 0,
+      comments: ''
+    };
+  }
+
+  fetchNewQuestion = async () => {
+    const questionResponse = await getNextQuestion();
+    if (questionResponse === null) {
+      return;
+    }
+    const { question_id, question } = questionResponse;
+    const questionText = question.revision_text;
+    this.setState({ questionId: question_id, question: questionText });
+    this.setState({ loading: false });
+  };
+
+  async componentDidMount() {
+    await this.fetchNewQuestion();
+  }
+
+  submit = async () => {
+    this.setState({ loading: true });
+    const {
+      readableAndInEnglish,
+      toxic,
+      obscene,
+      identityHate,
+      insult,
+      threat,
+      comments,
+      skip,
+      questionId
+    } = this.state;
+
+    let answerResponse = {};
+
+    if (skip) {
+      answerResponse.skip = true;
+    } else {
+      answerResponse.answer = {
+        readableAndInEnglish,
+        toxic
+      };
+      if (obscene > 0) {
+        answerResponse.answer.obscene = obscene;
+      }
+      if (identityHate > 0) {
+        answerResponse.answer.identityHate = identityHate;
+      }
+      if (insult > 0) {
+        answerResponse.answer.insult = insult;
+      }
+      if (threat > 0) {
+        answerResponse.answer.threat = threat;
+      }
+      if (comments.length > 0) {
+        // They said comment was mandatory?
+        answerResponse.answer.comments = comments;
+      }
+    }
+
+    await ApiManager.apiManager.postUserAnswer(
+      questionId,
+      JSON.stringify(answerResponse)
+    );
+    await this.fetchNewQuestion();
+  };
+
+  skip = async () => {
+    this.setState({ skip: true });
+    this.submit();
+  };
+
+  markUnreadable = async () => {
+    this.setState({ readableAndInEnglish: false });
+    this.submit();
+  };
+
   render() {
     return (
       <div className="rating-view">
@@ -27,14 +121,11 @@ export default class RatingView extends Component {
           style={{ height: '100%' }}
           verticalAlign="middle"
         >
-          <Grid.Column style={{ maxWidth: 600 }}>
-            <Header as="h2" color="violet" textAlign="center">
-              <Image src="/logo.png" /> Rate this comment
-            </Header>
-            <Form size="large">
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Form size="large" loading={this.state.loading}>
               <Segment.Group stacked>
                 <Segment>
-                  <Container fluid>Question here...</Container>
+                  <Container fluid>{this.state.question}</Container>
                 </Segment>
                 <Segment>
                   <Segment.Group>
@@ -42,8 +133,10 @@ export default class RatingView extends Component {
                       <Form.Field required inline>
                         <label>Toxicity: </label>
                         <Rating
-                          defaultRating={1}
                           maxRating={3}
+                          rating={this.state.toxic}
+                          onRate={(event, data) =>
+                            this.setState({ toxic: data.rating })}
                           size="massive"
                         />
                       </Form.Field>
@@ -51,25 +144,53 @@ export default class RatingView extends Component {
                     <Segment>
                       <Form.Field inline>
                         <label>Profanity/Obscenity: </label>
-                        <Rating clearable maxRating={3} size="huge" />
+                        <Rating
+                          clearable
+                          maxRating={3}
+                          rating={this.state.obscene}
+                          onRate={(event, data) =>
+                            this.setState({ obscene: data.rating })}
+                          size="huge"
+                        />
                       </Form.Field>
                     </Segment>
                     <Segment>
                       <Form.Field inline>
                         <label>Identity based hate: </label>
-                        <Rating clearable maxRating={3} size="huge" />
+                        <Rating
+                          clearable
+                          maxRating={3}
+                          rating={this.state.identityHate}
+                          onRate={(event, data) =>
+                            this.setState({ identityHate: data.rating })}
+                          size="huge"
+                        />
                       </Form.Field>
                     </Segment>
                     <Segment>
                       <Form.Field inline>
                         <label>Insulting: </label>
-                        <Rating clearable maxRating={3} size="huge" />
+                        <Rating
+                          clearable
+                          maxRating={3}
+                          rating={this.state.insult}
+                          onRate={(event, data) =>
+                            this.setState({ insult: data.rating })}
+                          size="huge"
+                        />
                       </Form.Field>
                     </Segment>
                     <Segment>
                       <Form.Field inline>
                         <label>Threatening: </label>
-                        <Rating clearable maxRating={3} size="huge" />
+                        <Rating
+                          clearable
+                          maxRating={3}
+                          rating={this.state.threat}
+                          onRate={(event, data) =>
+                            this.setState({ threat: data.rating })}
+                          size="huge"
+                        />
                       </Form.Field>
                     </Segment>
                   </Segment.Group>
@@ -84,7 +205,10 @@ export default class RatingView extends Component {
                           as: Form.TextArea,
                           key: 'content',
                           label: 'Additional comments',
-                          placeholder: 'Additional ideas on the comment'
+                          placeholder: 'Additional ideas on the comment',
+                          value: this.state.comments,
+                          onChange: (event, data) =>
+                            this.setState({ comments: data.value })
                         }
                       }
                     ]}
@@ -92,21 +216,28 @@ export default class RatingView extends Component {
                 </Segment>
                 <Segment attached="bottom">
                   <Button.Group>
-                    <Button color="violet" size="large">
+                    <Button color="violet" size="large" onClick={this.submit}>
                       Submit
                     </Button>
                     <Button.Or />
-                    <Button color="yellow" size="large">
+                    <Button color="yellow" size="large" onClick={this.skip}>
                       Skip
                     </Button>
                     <Button.Or />
-                    <Button color="brown" size="large">
+                    <Button
+                      color="brown"
+                      size="large"
+                      onClick={this.markUnreadable}
+                    >
                       Unreadable
                     </Button>
                   </Button.Group>
                 </Segment>
               </Segment.Group>
             </Form>
+            <Message>
+              Want to quit? <Link to="/logout">Logout</Link>
+            </Message>
           </Grid.Column>
         </Grid>
       </div>
