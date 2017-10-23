@@ -33,17 +33,21 @@ export default class Signup extends Component {
 
   submit = async () => {
     // validity
-    const { redirect, confirm, opt1, opt2, opt3, ...options } = this.state;
+    const { confirm, opt1, opt2, opt3, email, username, password } = this.state;
+    // console.log(this.state);
     if (
-      (validEmail(options.email) || validUsername(options.username)) &&
-      validPassword(options.password) &&
-      options.password === options.confirm &&
+      (validEmail(email) || validUsername(username)) &&
+      validPassword(password) &&
+      password === confirm &&
       opt1 &&
       opt2 &&
       opt3
     ) {
-      if (await register(options)) {
+      const registered = await register({ email, username, password });
+      if (registered) {
         this.setState({ redirect: true });
+      } else {
+        console.log('Registration failed. ');
       }
     }
   };
@@ -142,7 +146,7 @@ export default class Signup extends Component {
                   }}
                 />
                 <Divider horizontal />
-                <Button color="green" fluid size="large">
+                <Button color="green" fluid size="large" onClick={this.submit}>
                   Sign Up
                 </Button>
               </Segment>

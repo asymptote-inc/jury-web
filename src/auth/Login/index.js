@@ -24,20 +24,25 @@ export default class Login extends Component {
       username: '',
       password: '',
       save: true,
-      redirect: false
+      redirect: false,
+      submitFailed: false
     };
   }
 
   submit = async () => {
     // validity
-    const { redirect, save, ...options } = this.state;
+    const { save, email, username, password } = this.state;
     if (
-      (validEmail(options.email) || validUsername(options.username)) &&
-      validPassword(options.password)
+      (validEmail(email) || validUsername(username)) &&
+      validPassword(password)
     ) {
+      const options =
+        email.length > 0 ? { email, password } : { username, password };
       const apiMan = await login(options, save);
       if (apiMan) {
         this.setState({ redirect: true });
+      } else {
+        this.setState({ submitFailed: true });
       }
     }
   };
@@ -62,6 +67,7 @@ export default class Login extends Component {
             <Header as="h2" color="blue" textAlign="center">
               <Image src="/logo.png" /> Log-in to your account
             </Header>
+
             <Form size="large">
               <Segment>
                 <Segment>
@@ -103,11 +109,23 @@ export default class Login extends Component {
                 <Form.Checkbox
                   toggle
                   label="Keep me Logged in"
-                  value={this.state.save}
+                  checked={this.state.save}
                   onChange={(event, data) =>
                     this.setState({ save: data.value })}
                 />
                 <Divider horizontal />
+                <Message
+                  error
+                  icon="unlock alternate"
+                  visible={this.state.submitFailed}
+                  onDismiss={(event, data) =>
+                    this.setState({ submitFailed: false })}
+                  header="Login failed. "
+                  list={[
+                    'Please ensure you entered either your email or your username. ',
+                    'Please ensure you typed your password correctly. '
+                  ]}
+                />
                 <Button color="blue" fluid size="large" onClick={this.submit}>
                   Login
                 </Button>

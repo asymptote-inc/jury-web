@@ -53,6 +53,10 @@ class ApiManager {
             'Content-Type': 'application/json'
           }
         })).json();
+        if (!code) {
+          console.log('Login failed. ');
+          return null;
+        }
         ApiManager._apiManager = new ApiManager(code);
         if (save) {
           localStorage.setItem('token', code);
