@@ -40,14 +40,18 @@ export default class RatingView extends Component {
   }
 
   fetchNewQuestion = async () => {
-    const questionResponse = await getNextQuestion();
-    if (questionResponse === null) {
-      return;
+    try {
+      const questionResponse = await getNextQuestion();
+      if (questionResponse === null) {
+        return;
+      }
+      const { question_id, question } = questionResponse;
+      const questionText = question.revision_text;
+      this.setState({ questionId: question_id, question: questionText });
+      this.setState({ loading: false });
+    } catch (error) {
+      this.setState({ loading: false });
     }
-    const { question_id, question } = questionResponse;
-    const questionText = question.revision_text;
-    this.setState({ questionId: question_id, question: questionText });
-    this.setState({ loading: false });
   };
 
   componentDidMount() {
@@ -95,10 +99,15 @@ export default class RatingView extends Component {
       }
     }
 
-    await ApiManager.apiManager.postUserAnswer(
-      questionId,
-      JSON.stringify(answerResponse)
-    );
+    try {
+      await ApiManager.apiManager.postUserAnswer(
+        questionId,
+        JSON.stringify(answerResponse)
+      );
+    } catch (error) {
+      console.log('Could not post the answer. ');
+    }
+
     this.fetchNewQuestion();
   };
 
