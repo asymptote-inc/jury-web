@@ -127,7 +127,13 @@ export default class RatingView extends Component {
           style={{ height: '100%' }}
           verticalAlign="middle"
         >
-          <Grid.Column style={{ maxWidth: 450 }}>
+          <Grid.Column
+            style={
+              this.state.question.length < 600
+                ? { maxWidth: 450 }
+                : { maxWidth: 600 }
+            }
+          >
             <Form size="large" loading={this.state.loading}>
               <Segment.Group stacked>
                 <Segment>
