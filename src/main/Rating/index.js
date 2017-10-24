@@ -78,7 +78,7 @@ export default class RatingView extends Component {
       answerResponse.skip = true;
     } else {
       answerResponse.answer = {
-        readableAndInEnglish,
+        readableAndInEnglish: readableAndInEnglish ? 'yes' : 'no',
         toxic: stringRepr[toxic]
       };
       if (obscene > 0) {
