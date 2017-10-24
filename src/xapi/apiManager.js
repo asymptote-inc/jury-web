@@ -10,6 +10,7 @@ class ApiManager {
       const token = localStorage.getItem('token');
       if (token) {
         ApiManager._apiManager = new ApiManager(token);
+        return ApiManager._apiManager;
       } else {
         return null;
       }
