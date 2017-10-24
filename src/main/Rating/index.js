@@ -20,6 +20,8 @@ const stringRepr = {
   '3': 'Very'
 };
 
+const colors = ['grey', 'green', 'yellow', 'red'];
+
 export default class RatingView extends Component {
   constructor(props) {
     super(props);
@@ -38,6 +40,22 @@ export default class RatingView extends Component {
       comments: ''
     };
   }
+
+  resetInputFields = () => {
+    this.setState({
+      loading: true,
+      questionId: -1,
+      question: '',
+      readableAndInEnglish: true,
+      skip: false,
+      toxic: 1,
+      obscene: 0,
+      identityHate: 0,
+      threat: 0,
+      insult: 0,
+      comments: ''
+    });
+  };
 
   fetchNewQuestion = async () => {
     try {
@@ -108,6 +126,7 @@ export default class RatingView extends Component {
       console.log('Could not post the answer. ');
     }
 
+    this.resetInputFields();
     this.fetchNewQuestion();
   };
 
@@ -150,7 +169,7 @@ export default class RatingView extends Component {
                 </Segment>
                 <Segment>
                   <Segment.Group>
-                    <Segment>
+                    <Segment color={colors[this.state.toxic]}>
                       <Form.Field required inline>
                         <label>Toxicity: </label>
                         <Rating
@@ -162,7 +181,7 @@ export default class RatingView extends Component {
                         />
                       </Form.Field>
                     </Segment>
-                    <Segment>
+                    <Segment color={colors[this.state.obscene]}>
                       <Form.Field inline>
                         <label>Profanity/Obscenity: </label>
                         <Rating
@@ -175,7 +194,7 @@ export default class RatingView extends Component {
                         />
                       </Form.Field>
                     </Segment>
-                    <Segment>
+                    <Segment color={colors[this.state.identityHate]}>
                       <Form.Field inline>
                         <label>Identity based hate: </label>
                         <Rating
@@ -188,7 +207,7 @@ export default class RatingView extends Component {
                         />
                       </Form.Field>
                     </Segment>
-                    <Segment>
+                    <Segment color={colors[this.state.insult]}>
                       <Form.Field inline>
                         <label>Insulting: </label>
                         <Rating
@@ -201,7 +220,7 @@ export default class RatingView extends Component {
                         />
                       </Form.Field>
                     </Segment>
-                    <Segment>
+                    <Segment color={colors[this.state.threat]}>
                       <Form.Field inline>
                         <label>Threatening: </label>
                         <Rating
