@@ -119,7 +119,8 @@ class RatingBox extends Component {
                     <Button
                       color="yellow"
                       size="large"
-                      onClick={() => this.props.onSkip({ skipped: true })}
+                      onClick={() =>
+                        this.props.onSkip({ skipped: true, answer: {} })}
                     >
                       Skip
                     </Button>
