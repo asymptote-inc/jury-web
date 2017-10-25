@@ -169,7 +169,7 @@ export default class RatingView extends Component {
                 </Segment>
                 <Segment>
                   <Segment.Group>
-                    <Segment color={colors[this.state.toxic]}>
+                    <Segment inverted color={colors[this.state.toxic]}>
                       <Form.Field required inline>
                         <label>Toxicity: </label>
                         <Rating
