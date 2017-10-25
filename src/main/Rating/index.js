@@ -92,7 +92,9 @@ export default class RatingView extends Component {
 
     let answerResponse = {};
 
-    if (skipped) {
+    console.log(this.state);
+    
+    if (skipped === true) {
       answerResponse.skipped = true;
     } else {
       answerResponse.answer = {
