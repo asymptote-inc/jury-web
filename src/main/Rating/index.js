@@ -31,7 +31,7 @@ export default class RatingView extends Component {
       questionId: -1,
       question: '',
       readableAndInEnglish: true,
-      skip: false,
+      skipped: false,
       toxic: 1,
       obscene: 0,
       identityHate: 0,
@@ -47,7 +47,7 @@ export default class RatingView extends Component {
       questionId: -1,
       question: '',
       readableAndInEnglish: true,
-      skip: false,
+      skipped: false,
       toxic: 1,
       obscene: 0,
       identityHate: 0,
@@ -86,14 +86,14 @@ export default class RatingView extends Component {
       insult,
       threat,
       comments,
-      skip,
+      skipped,
       questionId
     } = this.state;
 
     let answerResponse = {};
 
-    if (skip) {
-      answerResponse.skip = true;
+    if (skipped) {
+      answerResponse.skipped = true;
     } else {
       answerResponse.answer = {
         readableAndInEnglish: readableAndInEnglish ? 'yes' : 'no',
@@ -131,7 +131,7 @@ export default class RatingView extends Component {
   };
 
   skip = async () => {
-    this.setState({ skip: true });
+    this.setState({ skipped: true });
     this.submit();
   };
 
