@@ -20,7 +20,7 @@ const stringRepr = {
   '3': 'Very'
 };
 
-const colors = ['grey', 'green', 'yellow', 'red'];
+const colors = ['grey', 'olive', 'yellow', 'orange'];
 
 export default class RatingView extends Component {
   constructor(props) {
@@ -168,7 +168,7 @@ export default class RatingView extends Component {
                   <Container fluid>{this.state.question}</Container>
                 </Segment>
                 <Segment>
-                  <Segment.Group>
+                  <Segment.Group compact>
                     <Segment inverted color={colors[this.state.toxic]}>
                       <Form.Field required inline>
                         <label>Toxicity: </label>
