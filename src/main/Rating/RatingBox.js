@@ -130,7 +130,8 @@ class RatingBox extends Component {
                       onClick={() =>
                         this.props.onMarkAsUnreadable({
                           answer: {
-                            readableAndInEnglish: 'no'
+                            readableAndInEnglish: 'no',
+                            toxic: 'NotAtAll' // Answer must be provided, but was not. <- temp fix
                           }
                         })}
                     >
