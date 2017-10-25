@@ -63,6 +63,9 @@ export default class RatingView extends Component {
       if (questionResponse === null) {
         return;
       }
+      
+      this.resetInputFields();
+      
       const { question_id, question } = questionResponse;
       const questionText = question.revision_text;
       this.setState({ questionId: question_id, question: questionText });
@@ -128,18 +131,17 @@ export default class RatingView extends Component {
       console.log('Could not post the answer. ');
     }
 
-    this.resetInputFields();
-    this.fetchNewQuestion();
+    await this.fetchNewQuestion();
   };
 
   skip = async () => {
     this.setState({ skipped: true });
-    this.submit();
+    await this.submit();
   };
 
   markUnreadable = async () => {
     this.setState({ readableAndInEnglish: false });
-    this.submit();
+    await this.submit();
   };
 
   render() {
