@@ -6,10 +6,8 @@ import {
   Button,
   Rating,
   Container,
-  Accordion,
-  Message
+  Accordion
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 
 import getNextQuestion from '../../xapi/questionManager';
 import ApiManager from '../../xapi/apiManager';
@@ -30,8 +28,6 @@ export default class RatingView extends Component {
       loading: true,
       questionId: -1,
       question: '',
-      readableAndInEnglish: true,
-      skipped: false,
       toxic: 1,
       obscene: 0,
       identityHate: 0,
@@ -46,8 +42,6 @@ export default class RatingView extends Component {
       loading: true,
       questionId: -1,
       question: '',
-      readableAndInEnglish: true,
-      skipped: false,
       toxic: 1,
       obscene: 0,
       identityHate: 0,
@@ -63,15 +57,18 @@ export default class RatingView extends Component {
       if (questionResponse === null) {
         return;
       }
-      
+
       this.resetInputFields();
-      
+
       const { question_id, question } = questionResponse;
       const questionText = question.revision_text;
+
       this.setState({ questionId: question_id, question: questionText });
-      this.setState({ loading: false });
     } catch (error) {
+      console.log('Could not fetch new question. ');
+    } finally {
       this.setState({ loading: false });
+      return await Promise.resolve(true);
     }
   };
 
@@ -81,45 +78,37 @@ export default class RatingView extends Component {
 
   submit = async () => {
     this.setState({ loading: true });
+
     const {
-      readableAndInEnglish,
       toxic,
       obscene,
       identityHate,
       insult,
       threat,
       comments,
-      skipped,
       questionId
     } = this.state;
 
     let answerResponse = {};
 
-    console.log(this.state);
-    
-    if (skipped === true) {
-      answerResponse.skipped = true;
-    } else {
-      answerResponse.answer = {
-        readableAndInEnglish: readableAndInEnglish ? 'yes' : 'no',
-        toxic: stringRepr[toxic]
-      };
-      if (obscene > 0) {
-        answerResponse.answer.obscene = stringRepr[obscene];
-      }
-      if (identityHate > 0) {
-        answerResponse.answer.identityHate = stringRepr[identityHate];
-      }
-      if (insult > 0) {
-        answerResponse.answer.insult = stringRepr[insult];
-      }
-      if (threat > 0) {
-        answerResponse.answer.threat = stringRepr[threat];
-      }
-      if (comments.length > 0) {
-        // They said comment was mandatory?
-        answerResponse.answer.comments = comments;
-      }
+    answerResponse.answer = {
+      readableAndInEnglish: 'yes',
+      toxic: stringRepr[toxic]
+    };
+    if (obscene > 0) {
+      answerResponse.answer.obscene = stringRepr[obscene];
+    }
+    if (identityHate > 0) {
+      answerResponse.answer.identityHate = stringRepr[identityHate];
+    }
+    if (insult > 0) {
+      answerResponse.answer.insult = stringRepr[insult];
+    }
+    if (threat > 0) {
+      answerResponse.answer.threat = stringRepr[threat];
+    }
+    if (comments.length > 0) {
+      answerResponse.answer.comments = comments;
     }
 
     try {
@@ -129,19 +118,47 @@ export default class RatingView extends Component {
       );
     } catch (error) {
       console.log('Could not post the answer. ');
+    } finally {
+      return await this.fetchNewQuestion();
     }
-
-    await this.fetchNewQuestion();
   };
 
   skip = async () => {
-    this.setState({ skipped: true });
-    await this.submit();
+    this.setState({ loading: true });
+
+    const { questionId } = this.state;
+    const answerResponse = { skipped: true };
+
+    try {
+      const reply = await ApiManager.apiManager.postUserAnswer(
+        questionId,
+        JSON.stringify(answerResponse)
+      );
+      console.log(reply);
+    } catch (error) {
+      console.log('Failed to correctly skip the answer. ');
+    } finally {
+      return await this.fetchNewQuestion();
+    }
   };
 
   markUnreadable = async () => {
-    this.setState({ readableAndInEnglish: false });
-    await this.submit();
+    this.setState({ loading: true });
+
+    const { questionId } = this.state;
+    const answerResponse = { answer: { readableAndInEnglish: 'no' } };
+
+    try {
+      const reply = await ApiManager.apiManager.postUserAnswer(
+        questionId,
+        JSON.stringify(answerResponse)
+      );
+      console.log(reply);
+    } catch (error) {
+      console.log('Failed to correctly mark the answer unreadable. ');
+    } finally {
+      return await this.fetchNewQuestion();
+    }
   };
 
   render() {
@@ -172,7 +189,7 @@ export default class RatingView extends Component {
                   <Container fluid>{this.state.question}</Container>
                 </Segment>
                 <Segment>
-                  <Segment.Group compact>
+                  <Segment.Group>
                     <Segment inverted color={colors[this.state.toxic]}>
                       <Form.Field required inline>
                         <label>Toxicity: </label>
