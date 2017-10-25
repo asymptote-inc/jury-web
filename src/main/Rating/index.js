@@ -53,6 +53,7 @@ export default class RatingView extends Component {
   render() {
     return (
       <RatingBox
+        key={this.state.questionId}
         loading={this.state.loading}
         question={this.state.question}
         onSubmit={this.sendAndFetch}
