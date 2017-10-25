@@ -275,9 +275,6 @@ export default class RatingView extends Component {
                 </Segment>
               </Segment.Group>
             </Form>
-            <Message>
-              Want to quit? <Link to="/logout">Logout</Link>
-            </Message>
           </Grid.Column>
         </Grid>
       </div>
