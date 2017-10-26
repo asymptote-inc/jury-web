@@ -9,7 +9,7 @@ const validUsername = username => {
 };
 
 const validPassword = password => {
-  return password.length >= 8;
+  return password.length >= 1;
 };
 
 export { validEmail, validPassword, validUsername };
