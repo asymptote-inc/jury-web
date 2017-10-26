@@ -1,5 +1,6 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
+import '../index.css';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -9,11 +10,16 @@ import RatingBox from '../main/Rating/RatingBox';
 
 storiesOf('RatingSegment', module)
   .add('Non dominating', () => (
-    <RatingSegment label="test rating 1: " onRate={action('rated')} />
+    <RatingSegment
+      label="test rating 1: "
+      description="this is not a main item"
+      onRate={action('rated')}
+    />
   ))
   .add('Dominating', () => (
     <RatingSegment
       label="test rating 2: "
+      description="this is dominating"
       dominating
       onRate={action('rated')}
     />

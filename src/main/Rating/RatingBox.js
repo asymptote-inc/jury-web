@@ -6,7 +6,8 @@ import {
   Segment,
   Button,
   Container,
-  Accordion
+  Accordion,
+  Icon
 } from 'semantic-ui-react';
 
 import RatingSegment from './components/RatingSegment';
@@ -59,22 +60,27 @@ class RatingBox extends Component {
                     <RatingSegment
                       dominating
                       label="Toxicity: "
+                      description="Overall toxicity of the comment"
                       onRate={toxic => this.setState({ toxic })}
                     />
                     <RatingSegment
                       label="Profanity/Obscenity: "
+                      description="How vulgar or offensive the comment is"
                       onRate={obscene => this.setState({ obscene })}
                     />
                     <RatingSegment
                       label="Identity based hate: "
+                      description="How hateful the comment towards a specific gender, ethnicity, religion, country etc."
                       onRate={identityHate => this.setState({ identityHate })}
                     />
                     <RatingSegment
                       label="Insulting: "
+                      description="How disrespectful and contemptuous the comment is"
                       onRate={insult => this.setState({ insult })}
                     />
                     <RatingSegment
                       label="Threatening: "
+                      description="How violent the language of the comment is"
                       onRate={threat => this.setState({ threat })}
                     />
                   </Segment.Group>
@@ -85,11 +91,10 @@ class RatingBox extends Component {
                     as={Form.Field}
                     panels={[
                       {
-                        title: 'Optional Details',
+                        title: 'Additional comments',
                         content: {
                           as: Form.TextArea,
                           key: 'content',
-                          label: 'Additional comments',
                           placeholder: 'Additional ideas on the comment',
                           value: this.state.comments,
                           onChange: (event, data) =>
@@ -103,6 +108,8 @@ class RatingBox extends Component {
                 <Segment attached="bottom">
                   <Button.Group>
                     <Button
+                      animated="vertical"
+                      compact
                       color="violet"
                       size="large"
                       onClick={() =>
@@ -113,19 +120,30 @@ class RatingBox extends Component {
                           }
                         })}
                     >
-                      Submit
+                      <Button.Content visible>Submit</Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="send" />
+                      </Button.Content>
                     </Button>
                     <Button.Or />
                     <Button
+                      animated="vertical"
+                      compact
                       color="yellow"
                       size="large"
                       onClick={() =>
                         this.props.onSkip({ skipped: true, answer: {} })}
                     >
-                      Skip
+                      {' '}
+                      <Button.Content visible>Skip</Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="share" />
+                      </Button.Content>
                     </Button>
                     <Button.Or />
                     <Button
+                      animated="vertical"
+                      compact
                       color="brown"
                       size="large"
                       onClick={() =>
@@ -136,7 +154,10 @@ class RatingBox extends Component {
                           }
                         })}
                     >
-                      Unreadable
+                      <Button.Content visible>Unreadable</Button.Content>
+                      <Button.Content hidden>
+                        <Icon name="low vision" />
+                      </Button.Content>
                     </Button>
                   </Button.Group>
                 </Segment>
