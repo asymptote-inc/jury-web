@@ -44,6 +44,7 @@ class RatingBox extends Component {
     return (
       <div className="rating-view">
         <Grid
+          container
           textAlign="center"
           style={{ height: '100%' }}
           verticalAlign="middle"

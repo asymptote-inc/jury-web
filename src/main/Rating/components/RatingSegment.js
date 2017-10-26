@@ -43,7 +43,7 @@ class RatingComponent extends Component {
         color={colors[this.state.rating]}
       >
         <Form.Field inline>
-          <Grid verticalAlign="middle" divided>
+          <Grid verticalAlign="middle">
             <Grid.Column textAlign="right" width={6}>
               <Popup
                 trigger={<label floated="left">{this.props.label}</label>}
