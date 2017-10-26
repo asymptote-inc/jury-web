@@ -65,7 +65,7 @@ class RatingBox extends Component {
                       onRate={toxic => this.setState({ toxic })}
                     />
                     <RatingSegment
-                      label="Profanity/Obscenity: "
+                      label="Profanity/ Obscenity: "
                       description="How vulgar or offensive the comment is"
                       onRate={obscene => this.setState({ obscene })}
                     />
@@ -155,7 +155,7 @@ class RatingBox extends Component {
                           }
                         })}
                     >
-                      <Button.Content visible>Unreadable</Button.Content>
+                      <Button.Content visible>Can't read</Button.Content>
                       <Button.Content hidden>
                         <Icon name="low vision" />
                       </Button.Content>

@@ -50,7 +50,7 @@ class RatingComponent extends Component {
                 content={this.props.description}
               />
             </Grid.Column>
-            <Grid.Column textAlign="center" width={6}>
+            <Grid.Column textAlign="left" width={6}>
               <Rating
                 clearable={!this.props.dominating}
                 maxRating={3}
@@ -59,7 +59,7 @@ class RatingComponent extends Component {
                 size={this.props.dominating ? 'massive' : 'huge'}
               />
             </Grid.Column>
-            <Grid.Column textAlign="left" width={4}>
+            <Grid.Column textAlign="right" width={4}>
               <Popup
                 trigger={
                   <Icon
