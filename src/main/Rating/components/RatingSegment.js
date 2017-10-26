@@ -59,19 +59,20 @@ class RatingComponent extends Component {
                 size={this.props.dominating ? 'massive' : 'huge'}
               />
             </Grid.Column>
-            <Grid.Column textAlign="right" width={4}>
-              <Popup
-                trigger={
-                  <Icon
-                    inverted={this.props.dominating}
-                    color={colors[this.state.rating]}
-                    size={this.props.dominating ? 'big' : 'large'}
-                    name={iconRepr[this.state.rating]}
-                  />
-                }
-                content={readableRepr[this.state.rating]}
-              />
-            </Grid.Column>
+            {!this.props.dominating && (
+              <Grid.Column textAlign="right" width={4}>
+                <Popup
+                  trigger={
+                    <Icon
+                      color={colors[this.state.rating]}
+                      size="large"
+                      name={iconRepr[this.state.rating]}
+                    />
+                  }
+                  content={readableRepr[this.state.rating]}
+                />
+              </Grid.Column>
+            )}
           </Grid>
         </Form.Field>
       </Segment>
