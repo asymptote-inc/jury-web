@@ -45,6 +45,7 @@ export default class Signup extends Component {
     ) {
       const registered = await register({ email, username, password });
       if (registered) {
+        alert("Registered! Please log in now. ");
         this.setState({ redirect: true });
       } else {
         console.log('Registration failed. ');
