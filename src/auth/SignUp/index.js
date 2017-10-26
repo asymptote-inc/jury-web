@@ -122,7 +122,7 @@ export default class Signup extends Component {
                   }}
                 />
                 <Form.Checkbox
-                  label="Agreement condition 1"
+                  label="I understand that the comments may contain vulgar/offensive/disturbing content. "
                   checked={this.state.opt1}
                   error={!this.state.opt1}
                   onChange={(event, data) => {
@@ -130,7 +130,7 @@ export default class Signup extends Component {
                   }}
                 />
                 <Form.Checkbox
-                  label="Agreement condition 2"
+                  label="I promise that I will try my best to rate the comments accurately. "
                   checked={this.state.opt2}
                   error={!this.state.opt2}
                   onChange={(event, data) => {
@@ -138,7 +138,7 @@ export default class Signup extends Component {
                   }}
                 />
                 <Form.Checkbox
-                  label="Agreement condition 3"
+                  label="I know that I am free to opt out at any time. "
                   checked={this.state.opt3}
                   error={!this.state.opt3}
                   onChange={(event, data) => {
