@@ -44,10 +44,14 @@ export default class RatingView extends Component {
     // This will keep the user from unnecessary waiting (less loading/locked time).
     this.fetchNextQuestion();
 
-    await ApiManager.apiManager.postUserAnswer(
-      questionId,
-      JSON.stringify(answerResponse)
-    );
+    try {
+      await ApiManager.apiManager.postUserAnswer(
+        questionId,
+        JSON.stringify(answerResponse)
+      );
+    } catch (error) {
+      console.log('Posting answer failed. ');
+    }
   };
 
   render() {
