@@ -1,4 +1,5 @@
 import ApiManager from './apiManager';
+import removeDuplicatesBy from './util/removeDuplicatesBy';
 
 async function getNextQuestion() {
   if (!ApiManager.apiManager) {
@@ -24,11 +25,17 @@ async function getNextQuestion() {
     ApiManager.apiManager
       .getUserUnansweredQuestions()
       .then(preloadedQuestions => {
-        sessionStorage.setItem(
-          'questions',
-          JSON.stringify(questions.concat(preloadedQuestions))
+        // There can be duplicates since user haven't still sent
+        // answers to some questions.
+        // But the advantage is, we have some more questions
+        // to keep the user busy.
+        const cleanedQuestions = removeDuplicatesBy(
+          questions.concat(preloadedQuestions),
+          q => q.question_id
         );
-      });
+        sessionStorage.setItem('questions', JSON.stringify(cleanedQuestions));
+      })
+      .catch(error => {});
   }
 
   return question;
