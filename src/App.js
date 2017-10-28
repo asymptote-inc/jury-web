@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import SignUp from './auth/SignUp';
 import Login from './auth/Login';
 import RatingView from './main/Rating';
+import Scoreboard from './main/Scoreboard';
 
 function loggedIn() {
   return !!localStorage.getItem('token');
@@ -22,8 +23,13 @@ class App extends Component {
             render={() =>
               loggedIn() ? <RatingView /> : <Redirect to="/login" />}
           />
-          <Route exact path="/profile" />
-          <Route exact path="/scoreboard" />
+          <Route exact path="/stats" />
+          <Route
+            exact
+            path="/scoreboard"
+            render={() =>
+              loggedIn() ? <Scoreboard /> : <Redirect to="/login" />}
+          />
         </div>
       </BrowserRouter>
     );

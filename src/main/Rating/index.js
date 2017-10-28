@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import RatingBox from './RatingBox';
+import Header from '../../Header';
 
 import getNextQuestion from '../../xapi/questionManager';
 import ApiManager from '../../xapi/apiManager';
-
-import RatingBox from './RatingBox';
 
 export default class RatingView extends Component {
   state = {
@@ -56,14 +56,17 @@ export default class RatingView extends Component {
 
   render() {
     return (
-      <RatingBox
-        key={this.state.questionId}
-        loading={this.state.loading}
-        question={this.state.question}
-        onSubmit={this.sendAndFetch}
-        onSkip={this.sendAndFetch}
-        onMarkAsUnreadable={this.sendAndFetch}
-      />
+      <div>
+        <Header />
+        <RatingBox
+          key={this.state.questionId}
+          loading={this.state.loading}
+          question={this.state.question}
+          onSubmit={this.sendAndFetch}
+          onSkip={this.sendAndFetch}
+          onMarkAsUnreadable={this.sendAndFetch}
+        />
+      </div>
     );
   }
 }

@@ -7,6 +7,8 @@ import { action } from '@storybook/addon-actions';
 
 import RatingSegment from '../main/Rating/components/RatingSegment';
 import RatingBox from '../main/Rating/RatingBox';
+import UserStatistic from '../main/Scoreboard/components/UserStatistic';
+import Scoreboard from '../main/Scoreboard/Scoreboard';
 
 storiesOf('RatingSegment', module)
   .add('Non dominating', () => (
@@ -43,3 +45,13 @@ storiesOf('RatingBox', module)
       onMarkAsUnreadable={action('unreadable')}
     />
   ));
+
+storiesOf('UserStatistic', module).add('Default', () => (
+  <UserStatistic name="Someone" coins="11000" />
+));
+
+storiesOf('Scoreboard', module).add('Default', () => (
+  <Scoreboard
+    records={[{ name: 'alpha', coins: 1005 }, { name: 'beta', coins: 135 }]}
+  />
+));
