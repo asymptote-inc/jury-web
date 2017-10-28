@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import SignUp from './auth/SignUp';
 import Login from './auth/Login';
 import RatingView from './main/Rating';
+import SimpleRatingView from './main/SimpleRating';
 import Scoreboard from './main/Scoreboard';
 
 function loggedIn() {
@@ -20,6 +21,12 @@ class App extends Component {
           <Route
             exact
             path="/"
+            render={() =>
+              loggedIn() ? <SimpleRatingView /> : <Redirect to="/login" />}
+          />
+          <Route
+            exact
+            path="/moderator"
             render={() =>
               loggedIn() ? <RatingView /> : <Redirect to="/login" />}
           />

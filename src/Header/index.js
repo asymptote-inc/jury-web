@@ -7,7 +7,8 @@ class Header extends Component {
       <NavBar
         links={[
           { name: 'Scoreboard', path: '/scoreboard' },
-          { name: 'Moderator', path: '/' }
+          { name: 'Simple', path: '/' },
+          { name: 'Advanced', path: '/moderator' }
         ]}
       />
     );

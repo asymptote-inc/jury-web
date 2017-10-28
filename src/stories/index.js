@@ -9,6 +9,7 @@ import RatingSegment from '../main/Rating/components/RatingSegment';
 import RatingBox from '../main/Rating/RatingBox';
 import UserStatistic from '../main/Scoreboard/components/UserStatistic';
 import Scoreboard from '../main/Scoreboard/Scoreboard';
+import SimpleRatingBox from '../main/SimpleRating/RatingBox';
 
 storiesOf('RatingSegment', module)
   .add('Non dominating', () => (
@@ -45,6 +46,13 @@ storiesOf('RatingBox', module)
       onMarkAsUnreadable={action('unreadable')}
     />
   ));
+
+storiesOf('SimpleRating', module).add('Default', () => (
+  <SimpleRatingBox
+    onSubmit={action('submit')}
+    question="There goes a comment long long long"
+  />
+));
 
 storiesOf('UserStatistic', module).add('Default', () => (
   <UserStatistic name="Someone" coins="11000" />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from '../../Header';
-import RatingBox from './RatingBox';
+import RatingBox from '../SimpleRating/RatingBox';
 
 import getNextQuestion from '../../xapi/questionManager';
 import ApiManager from '../../xapi/apiManager';
@@ -36,13 +36,9 @@ export default class RatingView extends Component {
   };
 
   sendAndFetch = async answerResponse => {
-    // For the extremely unlikely case the .then clause executes before postUserAnswer begins
-    // let's save the current question id.
     const { questionId } = this.state;
 
     this.setState({ loading: true });
-    // We need to run both requests in parallel while preserving the ability to collect results.
-    // This will keep the user from unnecessary waiting (less loading/locked time).
     this.fetchNextQuestion();
 
     try {
@@ -64,8 +60,6 @@ export default class RatingView extends Component {
           loading={this.state.loading}
           question={this.state.question}
           onSubmit={this.sendAndFetch}
-          onSkip={this.sendAndFetch}
-          onMarkAsUnreadable={this.sendAndFetch}
         />
       </div>
     );
