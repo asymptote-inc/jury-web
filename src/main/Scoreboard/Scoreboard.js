@@ -8,7 +8,9 @@ function Scoreboard({ records }) {
     <Container>
       <Header size="huge">Leaderboard</Header>
       <Divider horizontal />
-      <Segment.Group>{records.map(UserStatistic)}</Segment.Group>
+      <Segment.Group>
+        {records.map(r => <UserStatistic {...r} key={r.name} />)}
+      </Segment.Group>
     </Container>
   );
 }

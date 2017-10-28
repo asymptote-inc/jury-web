@@ -6,7 +6,7 @@ function Header({ links }) {
   return (
     <Menu inverted>
       {links.map(link => (
-        <Menu.Item name="home">
+        <Menu.Item name="home" key={link.name}>
           <Link to={link.path}>{link.name}</Link>
         </Menu.Item>
       ))}
