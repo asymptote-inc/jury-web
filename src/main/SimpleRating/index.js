@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import Header from '../../Header';
 import RatingBox from '../SimpleRating/RatingBox';
 
-import getNextQuestion from '../../xapi/questionManager';
-import ApiManager from '../../xapi/apiManager';
+import { answer, getNextQuestion } from '../../xapi/questionManager';
 
 export default class RatingView extends Component {
   state = {
@@ -39,13 +38,10 @@ export default class RatingView extends Component {
     const { questionId } = this.state;
 
     this.setState({ loading: true });
-    this.fetchNextQuestion();
 
     try {
-      await ApiManager.apiManager.postUserAnswer(
-        questionId,
-        JSON.stringify(answerResponse)
-      );
+      answer(questionId, JSON.stringify(answerResponse));
+      this.fetchNextQuestion();
     } catch (error) {
       console.log('Posting answer failed. ');
     }

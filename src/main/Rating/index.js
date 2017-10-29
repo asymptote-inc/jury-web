@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import Header from '../../Header';
 import RatingBox from './RatingBox';
 
-import getNextQuestion from '../../xapi/questionManager';
-import ApiManager from '../../xapi/apiManager';
+import { answer, getNextQuestion } from '../../xapi/questionManager';
 
 export default class RatingView extends Component {
   state = {
@@ -43,13 +42,10 @@ export default class RatingView extends Component {
     this.setState({ loading: true });
     // We need to run both requests in parallel while preserving the ability to collect results.
     // This will keep the user from unnecessary waiting (less loading/locked time).
-    this.fetchNextQuestion();
 
     try {
-      await ApiManager.apiManager.postUserAnswer(
-        questionId,
-        JSON.stringify(answerResponse)
-      );
+      answer(questionId, JSON.stringify(answerResponse));
+      this.fetchNextQuestion();
     } catch (error) {
       console.log('Posting answer failed. ');
     }
