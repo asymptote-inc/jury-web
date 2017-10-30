@@ -8,7 +8,8 @@ class Header extends Component {
         links={[
           { name: 'Scoreboard', path: '/scoreboard' },
           { name: 'Simple', path: '/' },
-          { name: 'Advanced', path: '/moderator' }
+          { name: 'Advanced', path: '/moderator' },
+          { name: 'Logout', path: '/logout' }
         ]}
       />
     );

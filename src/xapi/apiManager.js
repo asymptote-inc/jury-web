@@ -69,6 +69,23 @@ class ApiManager {
     }
   }
 
+  static async logout() {
+    const token = localStorage.getItem('token');
+    if (!ApiManager._apiManager || !token) {
+      return Promise.resolve({ status: 'OK' });
+    }
+
+    const headers = { Authorization: `Bearer ${token}` };
+
+    ApiManager._apiManager = null;
+    localStorage.removeItem('token');
+
+    return (await fetch(`${API_BASE_URL}/logout`, {
+      method: 'POST',
+      headers: { ...headers, 'Content-Type': 'application/json' }
+    })).json();
+  }
+
   constructor(token) {
     const headers = { Authorization: `Bearer ${token}` };
 

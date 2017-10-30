@@ -6,6 +6,7 @@ import Login from './auth/Login';
 import RatingView from './main/Rating';
 import SimpleRatingView from './main/SimpleRating';
 import Scoreboard from './main/Scoreboard';
+import Logout from './auth/Logout';
 
 function loggedIn() {
   return !!localStorage.getItem('token');
@@ -36,6 +37,11 @@ class App extends Component {
             path="/scoreboard"
             render={() =>
               loggedIn() ? <Scoreboard /> : <Redirect to="/login" />}
+          />
+          <Route
+            exact
+            path="/logout"
+            render={() => (loggedIn() ? <Logout /> : <Redirect to="/login" />)}
           />
         </div>
       </BrowserRouter>
