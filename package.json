@@ -2,7 +2,7 @@
   "name": "jury-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jury.herokuapp.com/site",
+  "homepage": "https://jury.herokuapp.com",
   "dependencies": {
     "husky": "^0.14.3",
     "lint-staged": "^4.3.0",
@@ -16,10 +16,7 @@
     "semantic-ui-react": "^0.75.0"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "src/**/*.{js,jsx,json,css}": ["prettier --single-quote --write", "git add"]
   },
   "scripts": {
     "precommit": "lint-staged",
