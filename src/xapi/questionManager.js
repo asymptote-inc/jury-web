@@ -43,7 +43,7 @@ async function getNextQuestion() {
   return questions[Object.keys(questions)[0]];
 }
 
-async function answer(questionId, answer) {
+async function answerCurrent(questionId, answer) {
   const questions = JSON.parse(localStorage.getItem('questions'));
   const questionsNext = Object.keys(questions)
     .filter(q => q !== questionId)
@@ -57,9 +57,11 @@ async function answer(questionId, answer) {
   }
   if (Object.keys(notSent) > 0) {
     Object.keys(notSent).forEach(qid => {
+      console.log('q: ' + qid);
       ApiManager.apiManager
         .postUserAnswer(qid, notSent[qid])
         .then(() => {
+          console.log('q: ' + qid + ' :done');
           // This might introduce a race condition though
           const notSentNext = Object.keys(notSent)
             .filter(q => q !== qid)
@@ -78,4 +80,4 @@ async function answer(questionId, answer) {
   }
 }
 
-export { getNextQuestion, answer };
+export { getNextQuestion, answerCurrent as answer };
