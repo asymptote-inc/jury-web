@@ -5,7 +5,7 @@ async function getNextQuestion() {
     return null;
   }
 
-  let questionStr = sessionStorage.getItem('questions');
+  let questionStr = localStorage.getItem('questions');
   let questions;
 
   if (!questionStr || questionStr.length <= 0) {
@@ -16,7 +16,7 @@ async function getNextQuestion() {
       {}
     );
 
-    sessionStorage.setItem('questions', JSON.stringify(questions));
+    localStorage.setItem('questions', JSON.stringify(questions));
   } else {
     questions = JSON.parse(questionStr);
   }
@@ -35,7 +35,7 @@ async function getNextQuestion() {
           )
         };
 
-        sessionStorage.setItem('questions', JSON.stringify(toSave));
+        localStorage.setItem('questions', JSON.stringify(toSave));
       })
       .catch(err => {});
   }
@@ -44,13 +44,38 @@ async function getNextQuestion() {
 }
 
 async function answer(questionId, answer) {
-  let questions = JSON.parse(sessionStorage.getItem('questions'));
-  questions = Object.keys(questions)
+  const questions = JSON.parse(localStorage.getItem('questions'));
+  const questionsNext = Object.keys(questions)
     .filter(q => q !== questionId)
     .reduce((prv, cur) => ({ ...prv, [cur]: questions[cur] }), {});
-  sessionStorage.setItem('questions', JSON.stringify(questions));
+  localStorage.setItem('questions', JSON.stringify(questionsNext));
 
-  return await ApiManager.apiManager.postUserAnswer(questionId, answer);
+  let notSentStr = localStorage.getItem('notSent');
+  let notSent = {};
+  if (notSentStr) {
+    notSent = JSON.parse(notSentStr);
+  }
+  if (Object.keys(notSent) > 0) {
+    Object.keys(notSent).forEach(qid => {
+      ApiManager.apiManager
+        .postUserAnswer(qid, notSent[qid])
+        .then(() => {
+          // This might introduce a race condition though
+          const notSentNext = Object.keys(notSent)
+            .filter(q => q !== qid)
+            .reduce((prv, cur) => ({ ...prv, [cur]: notSent[cur] }), {});
+          localStorage.setItem('notSent', JSON.stringify(notSentNext));
+        })
+        .catch(() => {});
+    });
+  }
+
+  try {
+    return await ApiManager.apiManager.postUserAnswer(questionId, answer);
+  } catch (error) {
+    notSent[questionId] = answer;
+    localStorage.setItem('notSent', JSON.stringify(notSent));
+  }
 }
 
 export { getNextQuestion, answer };

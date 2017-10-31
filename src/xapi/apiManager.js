@@ -79,6 +79,7 @@ class ApiManager {
 
     ApiManager._apiManager = null;
     localStorage.removeItem('token');
+    localStorage.removeItem('questions');
 
     return (await fetch(`${API_BASE_URL}/logout`, {
       method: 'POST',
