@@ -43,6 +43,26 @@ async function getNextQuestion() {
   return questions[Object.keys(questions)[0]];
 }
 
+function handleFailedAnswers() {
+  let notSentStr = localStorage.getItem('notSent');
+  let notSent = {};
+  if (notSentStr.length > 0) {
+    notSent = JSON.parse(notSentStr);
+  }
+
+  Object.keys(notSent).forEach(qid => {
+    ApiManager.apiManager
+      .postUserAnswer(qid, notSent[qid])
+      .then(json => {
+        const notSentNext = Object.keys(notSent)
+          .filter(q => q !== qid)
+          .reduce((prv, cur) => ({ ...prv, [cur]: notSent[cur] }), {});
+        localStorage.setItem('notSent', JSON.stringify(notSentNext));
+      })
+      .catch(console.error);
+  });
+}
+
 async function answerCurrent(questionId, answer) {
   const questions = JSON.parse(localStorage.getItem('questions'));
   const questionsNext = Object.keys(questions)
@@ -50,31 +70,16 @@ async function answerCurrent(questionId, answer) {
     .reduce((prv, cur) => ({ ...prv, [cur]: questions[cur] }), {});
   localStorage.setItem('questions', JSON.stringify(questionsNext));
 
-  let notSentStr = localStorage.getItem('notSent');
-  let notSent = {};
-  if (notSentStr) {
-    notSent = JSON.parse(notSentStr);
-  }
-  if (Object.keys(notSent) > 0) {
-    Object.keys(notSent).forEach(qid => {
-      console.log('q: ' + qid);
-      ApiManager.apiManager
-        .postUserAnswer(qid, notSent[qid])
-        .then(() => {
-          console.log('q: ' + qid + ' :done');
-          // This might introduce a race condition though
-          const notSentNext = Object.keys(notSent)
-            .filter(q => q !== qid)
-            .reduce((prv, cur) => ({ ...prv, [cur]: notSent[cur] }), {});
-          localStorage.setItem('notSent', JSON.stringify(notSentNext));
-        })
-        .catch(() => {});
-    });
-  }
+  handleFailedAnswers();
 
   try {
     return await ApiManager.apiManager.postUserAnswer(questionId, answer);
   } catch (error) {
+    let notSentStr = localStorage.getItem('notSent');
+    let notSent = {};
+    if (notSentStr.length > 0) {
+      notSent = JSON.parse(notSentStr);
+    }
     notSent[questionId] = answer;
     localStorage.setItem('notSent', JSON.stringify(notSent));
   }
