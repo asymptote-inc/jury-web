@@ -1,15 +1,16 @@
 {
   "short_name": "juRY",
-  "name": "juRY the crowdsourcing moderator app",
+  "name": "Crowdsourced Moderator app",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "446x446",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#7CC4E1",
+  "background_color": "#ffffff",
+  "lang": "en-US"
 }
