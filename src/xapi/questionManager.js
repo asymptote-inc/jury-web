@@ -46,7 +46,7 @@ async function getNextQuestion() {
 function handleFailedAnswers() {
   let notSentStr = localStorage.getItem('notSent');
   let notSent = {};
-  if (notSentStr.length > 0) {
+  if (notSentStr && notSentStr.length > 0) {
     notSent = JSON.parse(notSentStr);
   }
 
@@ -77,7 +77,7 @@ async function answerCurrent(questionId, answer) {
   } catch (error) {
     let notSentStr = localStorage.getItem('notSent');
     let notSent = {};
-    if (notSentStr.length > 0) {
+    if (notSentStr && notSentStr.length > 0) {
       notSent = JSON.parse(notSentStr);
     }
     notSent[questionId] = answer;
