@@ -7,6 +7,9 @@ import RatingView from './main/Rating';
 import SimpleRatingView from './main/SimpleRating';
 import Scoreboard from './main/Scoreboard';
 import Logout from './auth/Logout';
+import ArticleViewer from './articles/ArticleViewer';
+import InstallationPage from './articles/Installation';
+import InstructionsPage from './articles/Instructions';
 
 function loggedIn() {
   return !!localStorage.getItem('token');
@@ -19,6 +22,7 @@ class App extends Component {
         <div className="App">
           <Route exact path="/register" component={SignUp} />
           <Route exact path="/login" component={Login} />
+
           <Route
             exact
             path="/"
@@ -31,13 +35,35 @@ class App extends Component {
             render={() =>
               loggedIn() ? <RatingView /> : <Redirect to="/login" />}
           />
-          <Route exact path="/stats" />
           <Route
             exact
             path="/scoreboard"
             render={() =>
               loggedIn() ? <Scoreboard /> : <Redirect to="/login" />}
           />
+
+          <Route exact path="/stats" />
+
+          <Route
+            exact
+            path="/help/install"
+            render={() => (
+              <ArticleViewer>
+                <InstallationPage />
+              </ArticleViewer>
+            )}
+          />
+          <Route
+            exact
+            path="/help/moderate"
+            render={() => (
+              <ArticleViewer>
+                <InstructionsPage />
+              </ArticleViewer>
+            )}
+          />
+
+          <Route exact path="/profile" />
           <Route
             exact
             path="/logout"

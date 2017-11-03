@@ -5,10 +5,17 @@ class Header extends Component {
   render() {
     return (
       <NavBar
-        links={[
-          { name: 'Scoreboard', path: '/scoreboard' },
+        leftLinks={[
           { name: 'Simple', path: '/' },
           { name: 'Advanced', path: '/moderator' },
+          { name: 'Scoreboard', path: '/scoreboard' }
+        ]}
+        helpLinks={[
+          { name: 'Installation', path: '/help/install' },
+          { name: 'Moderating', path: '/help/moderate' }
+        ]}
+        userLinks={[
+          { name: 'Profile', path: '/profile' },
           { name: 'Logout', path: '/logout' }
         ]}
       />

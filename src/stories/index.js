@@ -1,5 +1,7 @@
 import React from 'react';
+import StoryRouter from 'storybook-router';
 import 'semantic-ui-css/semantic.min.css';
+
 import '../index.css';
 
 import { storiesOf } from '@storybook/react';
@@ -10,6 +12,9 @@ import RatingBox from '../main/Rating/RatingBox';
 import UserStatistic from '../main/Scoreboard/components/UserStatistic';
 import Scoreboard from '../main/Scoreboard/Scoreboard';
 import SimpleRatingBox from '../main/SimpleRating/RatingBox';
+
+import ArticleViewer from '../articles/ArticleViewer';
+import InstallationPage from '../articles/Installation';
 
 storiesOf('RatingSegment', module)
   .add('Non dominating', () => (
@@ -63,3 +68,11 @@ storiesOf('Scoreboard', module).add('Default', () => (
     records={[{ name: 'alpha', coins: 1005 }, { name: 'beta', coins: 135 }]}
   />
 ));
+
+storiesOf('Article Viewer', module)
+  .addDecorator(StoryRouter())
+  .add('Installation Page', () => (
+    <ArticleViewer>
+      <InstallationPage />
+    </ArticleViewer>
+  ));
