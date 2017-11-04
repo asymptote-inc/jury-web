@@ -49,7 +49,7 @@ export default class RatingView extends Component {
 
   render() {
     return (
-      <div>
+      <div data-id={this.state.questionId}>
         <Header />
         <RatingBox
           key={this.state.questionId}
